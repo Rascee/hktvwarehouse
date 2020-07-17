@@ -2,9 +2,8 @@ package com.hktv.warehouse.warehouse.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,4 +17,9 @@ public class Product {
     private String code;
     private String name;
     private double weight;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+    private List<Stock> stocks;
+
+
 }

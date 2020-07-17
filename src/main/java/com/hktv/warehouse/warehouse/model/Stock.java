@@ -13,8 +13,8 @@ import javax.persistence.*;
 @Table(name = "stock")
 @Builder
 public class Stock {
-    @EmbeddedId
     @JsonIgnore
+    @EmbeddedId
     private StockPK stockPK;
     private Long quantity;
 

@@ -3,6 +3,7 @@ package com.hktv.warehouse.warehouse.service.impl;
 import com.hktv.warehouse.warehouse.dto.request.CreateStockRequest;
 import com.hktv.warehouse.warehouse.model.Product;
 import com.hktv.warehouse.warehouse.model.Stock;
+import com.hktv.warehouse.warehouse.model.StockPK;
 import com.hktv.warehouse.warehouse.model.Warehouse;
 import com.hktv.warehouse.warehouse.repository.ProductRepository;
 import com.hktv.warehouse.warehouse.repository.StockRepository;
@@ -12,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.criteria.Predicate;
@@ -58,8 +58,9 @@ public class WarehouseServiceImpl implements WarehouseService {
                 Stock.builder()
                         .warehouse(Warehouse.builder().code(request.getWarehouseCode()).build())
                         .product(Product.builder().code(request.getProductCode()).build())
-                .quantity(request.getQuantity())
-                .build()
+                        .stockPK(new StockPK(request.getProductCode(), request.getWarehouseCode()))
+                        .quantity(request.getQuantity())
+                        .build()
         ).collect(Collectors.toList());
 
         stockRepository.saveAll(stocks);
@@ -67,6 +68,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public Warehouse getWarehouse(String warehouseCode) {
-        return warehouseRepository.findById(warehouseCode).get();
+        return warehouseRepository.findById(warehouseCode).orElse(null);
     }
 }

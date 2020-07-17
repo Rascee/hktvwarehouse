@@ -1,19 +1,17 @@
 package com.hktv.warehouse.warehouse.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @EqualsAndHashCode
 @Embeddable
 public class StockPK implements Serializable {
-    protected String productCode;
-    protected String warehouseCode;
+    private String productCode;
+    private String warehouseCode;
 }
