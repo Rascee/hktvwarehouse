@@ -1,0 +1,14 @@
+logging:
+  level:
+    ROOT: DEBUG
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 12345678
+    url: jdbc:mysql://localhost:3306/hktvwarehouse
+  jpa:
+    hibernate:
+      ddl-auto: create
+server:
+  port: 8080
