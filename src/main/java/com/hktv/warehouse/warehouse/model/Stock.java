@@ -18,11 +18,11 @@ public class Stock {
     private StockPK stockPK;
     private Long quantity;
 
-//    @Column(name = "product_code", insertable = false, updatable = false)
-//    private String productCode;
-//
-//    @Column(name = "warehouse_code", insertable = false, updatable = false)
-//    private String warehouseCode;
+    @Column(name = "product_code", insertable = false, updatable = false)
+    private String productCode;
+
+    @Column(name = "warehouse_code", insertable = false, updatable = false)
+    private String warehouseCode;
 
     @MapsId("productCode")
     @ManyToOne
