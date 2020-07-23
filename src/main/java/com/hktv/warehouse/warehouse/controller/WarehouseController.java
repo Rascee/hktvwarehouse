@@ -16,10 +16,15 @@ import java.util.List;
 public class WarehouseController {
     private final WarehouseService warehouseService;
 
+    @GetMapping()
+    public List<Warehouse> fetchWarehouse() {
+        return warehouseService.fetchWarehouse();
+    }
+
     /**
      * Retrieve stocks
      *
-     * @param productCodes
+     * @param productCodes product code collections
      * @return stocks grouped by product code
      */
     @GetMapping("/stocks")
@@ -39,7 +44,7 @@ public class WarehouseController {
 
     /**
      * Create warehouse
-     * @param warehouse
+     * @param warehouse warehouse details
      */
     @PostMapping
     public void createWarehouse(@RequestBody Warehouse warehouse) {
@@ -48,10 +53,15 @@ public class WarehouseController {
 
     /**
      * Create products by provides list of product
-     * @param products
+     * @param products product collection
      */
     @PostMapping("/products")
     public void createProducts(@RequestBody List<Product> products) {
         warehouseService.createProducts(products);
+    }
+
+    @GetMapping("product/{productId}")
+    public Product getProduct(@PathVariable String productId) {
+        return warehouseService.getProduct(productId);
     }
 }

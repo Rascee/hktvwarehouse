@@ -70,4 +70,14 @@ public class WarehouseServiceImpl implements WarehouseService {
     public Warehouse getWarehouse(String warehouseCode) {
         return warehouseRepository.findById(warehouseCode).orElse(null);
     }
+
+    @Override
+    public Product getProduct(String productId) {
+        return productRepository.findById(productId).orElse(null);
+    }
+
+    @Override
+    public List<Warehouse> fetchWarehouse() {
+        return warehouseRepository.findAll();
+    }
 }

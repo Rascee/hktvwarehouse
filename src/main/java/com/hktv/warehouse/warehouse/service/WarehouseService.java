@@ -18,4 +18,8 @@ public interface WarehouseService {
     void createStocks(List<CreateStockRequest> requests);
 
     Warehouse getWarehouse(String warehouseCode);
+
+    Product getProduct(String productId);
+
+    List<Warehouse> fetchWarehouse();
 }
