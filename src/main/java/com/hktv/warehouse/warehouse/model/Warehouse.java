@@ -1,6 +1,8 @@
 package com.hktv.warehouse.warehouse.model;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,6 +20,7 @@ public class Warehouse {
     private String name;
     private String address;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "warehouse")
+    @OneToMany(mappedBy = "warehouse", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Stock> stocks;
 }

@@ -15,22 +15,22 @@ import javax.persistence.*;
 public class Stock {
     @JsonIgnore
     @EmbeddedId
+    @AttributeOverrides({
+            @AttributeOverride(name = "productCode", column = @Column(name = "product_code")),
+            @AttributeOverride(name = "warehouseCode", column = @Column(name = "warehouse_code"))
+    })
     private StockPK stockPK;
     private Long quantity;
 
-    @Column(name = "product_code", insertable = false, updatable = false)
-    private String productCode;
-
-    @Column(name = "warehouse_code", insertable = false, updatable = false)
-    private String warehouseCode;
-
     @MapsId("productCode")
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "product_code")
     @JsonIgnore
     private Product product;
 
     @MapsId("warehouseCode")
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "warehouse_code")
     @JsonIgnore
     private Warehouse warehouse;
 }

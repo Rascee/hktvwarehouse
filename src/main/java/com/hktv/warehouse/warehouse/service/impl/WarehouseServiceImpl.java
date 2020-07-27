@@ -3,7 +3,6 @@ package com.hktv.warehouse.warehouse.service.impl;
 import com.hktv.warehouse.warehouse.dto.request.CreateStockRequest;
 import com.hktv.warehouse.warehouse.model.Product;
 import com.hktv.warehouse.warehouse.model.Stock;
-import com.hktv.warehouse.warehouse.model.StockPK;
 import com.hktv.warehouse.warehouse.model.Warehouse;
 import com.hktv.warehouse.warehouse.repository.ProductRepository;
 import com.hktv.warehouse.warehouse.repository.StockRepository;
@@ -54,14 +53,17 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void createStocks(List<CreateStockRequest> requests) {
-        List<Stock> stocks = requests.stream().map(request ->
-                Stock.builder()
-                        .warehouse(Warehouse.builder().code(request.getWarehouseCode()).build())
-                        .product(Product.builder().code(request.getProductCode()).build())
-                        .stockPK(new StockPK(request.getProductCode(), request.getWarehouseCode()))
-                        .quantity(request.getQuantity())
-                        .build()
-        ).collect(Collectors.toList());
+        List<Stock> stocks = requests.stream().map(request -> {
+            Product product = productRepository.findById(request.getProductCode()).orElse(null);
+            Warehouse warehouse = warehouseRepository.findById(request.getWarehouseCode()).orElse(null);
+            return
+                    Stock.builder()
+                    .warehouse(warehouse)
+                    .product(product)
+                    .quantity(request.getQuantity())
+                    .build();
+        })
+                .collect(Collectors.toList());
 
         stockRepository.saveAll(stocks);
     }
