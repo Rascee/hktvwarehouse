@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -12,5 +14,5 @@ import lombok.Setter;
 public class CreateStockRequest {
     private String productCode;
     private String warehouseCode;
-    private Long quantity;
+    private BigDecimal quantity;
 }

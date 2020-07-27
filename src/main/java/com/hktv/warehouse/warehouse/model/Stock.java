@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -13,23 +14,22 @@ import javax.persistence.*;
 @Table(name = "stock")
 @Builder
 public class Stock {
-    @JsonIgnore
     @EmbeddedId
     @AttributeOverrides({
             @AttributeOverride(name = "productCode", column = @Column(name = "product_code")),
             @AttributeOverride(name = "warehouseCode", column = @Column(name = "warehouse_code"))
     })
-    private StockPK stockPK;
-    private Long quantity;
+    private StockPK stockPK = new StockPK();
+    private BigDecimal quantity;
 
     @MapsId("productCode")
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "product_code")
     @JsonIgnore
     private Product product;
 
     @MapsId("warehouseCode")
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "warehouse_code")
     @JsonIgnore
     private Warehouse warehouse;

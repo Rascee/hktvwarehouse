@@ -3,6 +3,7 @@ package com.hktv.warehouse.warehouse.service.impl;
 import com.hktv.warehouse.warehouse.dto.request.CreateStockRequest;
 import com.hktv.warehouse.warehouse.model.Product;
 import com.hktv.warehouse.warehouse.model.Stock;
+import com.hktv.warehouse.warehouse.model.StockPK;
 import com.hktv.warehouse.warehouse.model.Warehouse;
 import com.hktv.warehouse.warehouse.repository.ProductRepository;
 import com.hktv.warehouse.warehouse.repository.StockRepository;
@@ -16,7 +17,9 @@ import org.springframework.util.CollectionUtils;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,19 +56,19 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void createStocks(List<CreateStockRequest> requests) {
-        List<Stock> stocks = requests.stream().map(request -> {
+        Set<Product> products = new HashSet<>();
+        for (CreateStockRequest request: requests) {
             Product product = productRepository.findById(request.getProductCode()).orElse(null);
             Warehouse warehouse = warehouseRepository.findById(request.getWarehouseCode()).orElse(null);
-            return
-                    Stock.builder()
+            Stock stock = Stock.builder()
                     .warehouse(warehouse)
                     .product(product)
                     .quantity(request.getQuantity())
                     .build();
-        })
-                .collect(Collectors.toList());
-
-        stockRepository.saveAll(stocks);
+            product.getStocks().add(stock);
+            products.add(product);
+        }
+        productRepository.saveAll(products);
     }
 
     @Override
