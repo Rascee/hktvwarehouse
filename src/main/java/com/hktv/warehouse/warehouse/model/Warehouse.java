@@ -1,10 +1,12 @@
 package com.hktv.warehouse.warehouse.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Getter
@@ -20,7 +22,7 @@ public class Warehouse {
     private String name;
     private String address;
 
-    @OneToMany(mappedBy = "warehouse", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "warehouse")
+    @JsonIgnore
     private List<Stock> stocks;
 }

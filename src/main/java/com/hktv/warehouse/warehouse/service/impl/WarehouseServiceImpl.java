@@ -53,16 +53,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void createStocks(List<CreateStockRequest> requests) {
-        List<Stock> stocks = requests.stream().map(request -> {
-            Product product = productRepository.findById(request.getProductCode()).orElse(null);
-            Warehouse warehouse = warehouseRepository.findById(request.getWarehouseCode()).orElse(null);
-            return
-                    Stock.builder()
-                    .warehouse(warehouse)
-                    .product(product)
-                    .quantity(request.getQuantity())
-                    .build();
-        })
+        List<Stock> stocks = requests.stream().map(request ->
+                Stock.builder()
+                        .quantity(request.getQuantity())
+                        .productCode(request.getProductCode())
+                        .warehouseCode(request.getWarehouseCode())
+                        .build()
+        )
                 .collect(Collectors.toList());
 
         stockRepository.saveAll(stocks);
